@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PumpBrain — AI Brain for Memecoins & Microcaps</title>
+  <meta name="description" content="Stop guessing, start knowing. PumpBrain uses AI to instantly analyze any token, wallet, or transaction. Get risk scores, trading insights, and cross-chain funding—all in one place. Trade smarter, ape harder.">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://pumpbrain.ai/">
+  <meta property="og:title" content="PumpBrain — AI Brain for Memecoins & Microcaps">
+  <meta property="og:description" content="Stop guessing, start knowing. PumpBrain uses AI to instantly analyze any token, wallet, or transaction. Get risk scores, trading insights, and cross-chain funding—all in one place. Trade smarter, ape harder.">
+  <meta property="og:image" content="https://i.ibb.co/H6J1W3w/pumpmeta.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://pumpbrain.ai/">
+  <meta property="twitter:title" content="PumpBrain — AI Brain for Memecoins & Microcaps">
+  <meta property="twitter:description" content="Stop guessing, start knowing. PumpBrain uses AI to instantly analyze any token, wallet, or transaction. Get risk scores, trading insights, and cross-chain funding—all in one place. Trade smarter, ape harder.">
+  <meta property="twitter:image" content="https://i.ibb.co/H6J1W3w/pumpmeta.png">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link
+    href="https://unpkg.com/@swing.xyz/ui/dist/index.css"
+    rel="stylesheet"
+  />
+  
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #1a1a24;
+      --bg-card: rgba(26, 26, 36, 0.4);
+      --neon-pink: #FF7BC4;
+      --neon-green: #00FF88;
+      --neon-purple: #8B5CF6;
+      --text-primary: #f8f9fa;
+      --text-secondary: #9ca3af;
+      --border-color: rgba(255, 255, 255, 0.1);
+      --warning-bg: rgba(255, 165, 0, 0.1);
+      --warning-border: rgba(255, 165, 0, 0.3);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, #1a0d2e 100%);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    .bg-pattern {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(255, 123, 196, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(0, 255, 136, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+      z-index: -1;
+      animation: pulse 8s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; }
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header & Navigation */
+    header {
+      padding: 20px 0;
+      background: rgba(26, 26, 36, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo img {
+      height: 50px;
+      width: auto;
+      filter: drop-shadow(0 0 20px rgba(255, 123, 196, 0.5));
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 80px 0 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero-left h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      margin-bottom: 24px;
+      background: linear-gradient(45deg, var(--text-primary), var(--neon-pink), var(--neon-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.1;
+    }
+
+    .hero-left p {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .cta-group {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple));
+      border: none;
+      padding: 16px 32px;
+      border-radius: 30px;
+      color: var(--bg-primary);
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 25px rgba(255, 123, 196, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 35px rgba(255, 123, 196, 0.5);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 2px solid var(--neon-green);
+      padding: 14px 30px;
+      border-radius: 30px;
+      color: var(--neon-green);
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      background: var(--neon-green);
+      color: var(--bg-primary);
+      box-shadow: 0 4px 25px rgba(0, 255, 136, 0.4);
+    }
+
+    .hero-right {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-right img {
+      max-width: 100%;
+      height: auto;
+      filter: drop-shadow(0 0 40px rgba(255, 123, 196, 0.6));
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 30px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--neon-pink), var(--neon-purple), transparent);
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      background: linear-gradient(45deg, var(--neon-pink), var(--neon-green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Two Column Layout for Wallet & Tx */
+    .two-column {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    /* Input Groups */
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    .input-label {
+      display: block;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .input-field {
+      width: 100%;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 14px 16px;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: 0.2s;
+    }
+
+    .input-field:focus {
+      outline: none;
+      border-color: var(--neon-pink);
+      box-shadow: 0 0 0 2px rgba(255, 123, 196, 0.2);
+    }
+
+    .analyze-btn {
+      width: 100%;
+      background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple));
+      border: none;
+      padding: 16px;
+      border-radius: 12px;
+      color: var(--bg-primary);
+      font-weight: 700;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .analyze-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 123, 196, 0.4);
+    }
+
+    .analyze-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Result Areas */
+    .result-container {
+      background: rgba(26, 26, 36, 0.6);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+      color: var(--text-secondary);
+      min-height: 100px;
+    }
+
+    .result-container.loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--neon-pink);
+    }
+
+    .result-container h4 {
+      color: var(--neon-pink);
+      margin-bottom: 12px;
+      font-size: 1.1rem;
+    }
+
+    .result-container p {
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+
+    .result-container ul {
+      margin: 10px 0;
+      padding-left: 20px;
+    }
+
+    .result-container li {
+      margin-bottom: 6px;
+    }
+
+    .score-badge {
+      display: inline-block;
+      background: rgba(255, 123, 196, 0.2);
+      color: var(--neon-pink);
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-weight: 600;
+      margin-right: 8px;
+    }
+
+    .theme-badge {
+      display: inline-block;
+      background: rgba(0, 255, 136, 0.2);
+      color: var(--neon-green);
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      margin: 4px 4px 4px 0;
+    }
+
+    .jupiter-link {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 10px 20px;
+      background: transparent;
+      border: 2px solid var(--neon-green);
+      color: var(--neon-green);
+      text-decoration: none;
+      border-radius: 20px;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .jupiter-link:hover {
+      background: var(--neon-green);
+      color: var(--bg-primary);
+    }
+
+    /* Bridge Placeholder */
+    .bridge-placeholder {
+      background: rgba(26, 26, 36, 0.6);
+      border: 2px dashed var(--border-color);
+      border-radius: 16px;
+      padding: 60px 40px;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      margin-top: 20px;
+    }
+
+    /* Footer */
+    footer {
+      padding: 40px 0;
+      text-align: center;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--border-color);
+      margin-top: 80px;
+    }
+
+    .footer-mascot {
+      margin-bottom: 20px;
+    }
+
+    .footer-mascot img {
+      height: 80px;
+      width: auto;
+      filter: drop-shadow(0 0 30px rgba(255, 123, 196, 0.5));
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .footer-credit {
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
+
+    .footer-credit a {
+      color: var(--neon-green);
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .footer-credit a:hover {
+      color: var(--neon-pink);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+      }
+
+      .hero-left h1 {
+        font-size: 2.5rem;
+      }
+
+      .two-column {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-group {
+        justify-content: center;
+      }
+    }
+
+    /* Swing widget theming */
+    #swing {
+      --color-primary: 255 123 196;
+      --background: 0 0% 100%;
+      --foreground: 222.2 47.4% 11.2%;
+      --border: 214.3 31.8% 91.4%;
+      --muted: 215.4 16.3% 46.9%;
+      --popover: 0 0% 100%;
+      --popover-foreground: 222.2 47.4% 11.2%;
+      --secondary: 210 40% 96.1%;
+      --secondary-foreground: 222.2 47.4% 11.2%;
+      --accent: 210 40% 96.1%;
+      --accent-foreground: 222.2 47.4% 11.2%;
+    }
+    /* Dark mode override */
+    @media (prefers-color-scheme: dark) {
+      #swing {
+        --background: 224 71% 4%;
+        --foreground: 213 31% 91%;
+        --border: 216 34% 17%;
+        --muted: 215.4 16.3% 56.9%;
+        --popover: 224 71% 4%;
+        --popover-foreground: 215 20.2% 65.1%;
+        --secondary: 222.2 47.4% 11.2%;
+        --secondary-foreground: 210 40% 98%;
+        --accent: 216 34% 17%;
+        --accent-foreground: 210 40% 98%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-pattern"></div>
+
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo" id="logo">
+          <img src="https://i.ibb.co/kjRLB1N/pumpbrainlogo.png" alt="PumpBrain">
+          <span>PumpBrain</span>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="hero-left">
+          <h1>AI Brain for Memecoins & Microcaps</h1>
+          <p>Paste any token, wallet, or transaction and let PumpBrain explain it in seconds. Get risk scores, narrative vibes, and cross-chain funding in one interface.</p>
+          <div class="cta-group">
+            <button class="btn-primary" id="hero-analyze-btn">Analyze a Token</button>
+            <button class="btn-secondary" id="hero-wallet-btn">Analyze Wallet & Tx</button>
+          </div>
+        </div>
+        <div class="hero-right">
+          <img src="https://i.ibb.co/kjRLB1N/pumpbrainlogo.png" alt="PumpBrain Logo" border="0">
+        </div>
+      </section>
+
+      <!-- Token Analyzer Card -->
+      <section class="card" id="token-analyzer-card">
+        <h2 class="card-title">Token Analyzer</h2>
+        <div class="input-group">
+          <label class="input-label" for="token-input">Token address or Pump.fun URL</label>
+          <input 
+            type="text" 
+            id="token-input" 
+            class="input-field" 
+            placeholder="Paste a token contract address or Pump.fun link…"
+          >
+        </div>
+        <button class="analyze-btn" id="analyze-token-btn">Analyze Token</button>
+        <div class="result-container" id="token-result">
+          Paste a token and click Analyze to see AI insights.
+        </div>
+      </section>
+
+      <!-- Wallet & Tx Analyzers (Two Column) -->
+      <div class="two-column" id="wallet-tx-section">
+        <!-- Wallet Analyzer -->
+        <section class="card">
+          <h2 class="card-title">Wallet Analyzer</h2>
+          <div class="input-group">
+            <label class="input-label" for="wallet-input">Wallet address</label>
+            <input 
+              type="text" 
+              id="wallet-input" 
+              class="input-field" 
+              placeholder="Paste a wallet address…"
+            >
+          </div>
+          <button class="analyze-btn" id="analyze-wallet-btn">Analyze Wallet</button>
+          <div class="result-container" id="wallet-result">
+            Paste a wallet to see personality and trading style.
+          </div>
+        </section>
+
+        <!-- Transaction Analyzer -->
+        <section class="card">
+          <h2 class="card-title">Transaction Analyzer</h2>
+          <div class="input-group">
+            <label class="input-label" for="tx-input">Tx hash / signature</label>
+            <input 
+              type="text" 
+              id="tx-input" 
+              class="input-field" 
+              placeholder="Paste a transaction hash or signature…"
+            >
+          </div>
+          <button class="analyze-btn" id="analyze-tx-btn">Analyze Transaction</button>
+          <div class="result-container" id="tx-result">
+            Paste a transaction to see a human-readable breakdown.
+          </div>
+        </section>
+      </div>
+
+      <!-- Bridge Section -->
+      <section class="card" id="bridge-section">
+        <h2 class="card-title">Fund From Any Chain</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 20px;">
+          Bridge and swap assets across 30+ blockchains. Connect your wallet to get started.
+        </p>
+        <div id="swing">
+          <swing-swap projectId="pumpbrain"></swing-swap>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-mascot">
+        <img src="https://i.ibb.co/kjRLB1N/pumpbrainlogo.png" alt="PumpBrain">
+      </div>
+      <div>
+        PumpBrain · AI-powered meme intelligence · Trade smarter, ape harder.
+      </div>
+      <div class="footer-credit">
+        Made by <a href="https://degenpages.com" target="_blank" rel="noopener noreferrer">DegenPages.com</a>
+      </div>
+    </div>
+  </footer>
+
+  <script
+    src="https://unpkg.com/@swing.xyz/ui/dist/web-components/index.mjs"
+    type="module"
+  ></script>
+  <script src="app.js"></script>
+</body>
+</html>
